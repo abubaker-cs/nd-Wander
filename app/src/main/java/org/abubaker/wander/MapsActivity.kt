@@ -103,12 +103,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(geoAddress, zoomLevel))
 
+        /**
+         * Overlay image android.png
+         */
+
+        // Create a float for the width in meters of the desired overlay
         val overlaySize = 100f
+
+        //
         val androidOverlay = GroundOverlayOptions()
+
+            // Use the BitmapDescriptorFactory.fromResource()method to create a BitmapDescriptor object from the above image.
             .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
+
+            // Set the position property for the GroundOverlayOptions object by calling the position() method
             .position(geoAddress, overlaySize)
 
 
+        // 1. Call addGroundOverlay() on the GoogleMap object
+        // 2. Pass in your GroundOverlayOptions object
         map.addGroundOverlay(androidOverlay)
 
 

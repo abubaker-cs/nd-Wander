@@ -44,18 +44,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         //
         map = googleMap
 
+        val latitude = 31.341836
+        val longitude = 74.140467
+
         // Add a marker in Sydney and move the camera
         // 1. Geo-location
-        val geoAddress = LatLng(31.341836, 74.140467)
+        val geoAddress = LatLng(latitude, longitude)
+
+
+        val zoomLevel = 15f
 
         // 2. Position
         // 3. Title
-        map.addMarker(
-            MarkerOptions().position(geoAddress).title("My Home")
-        )
+        map.addMarker(MarkerOptions().position(geoAddress).title("My Home"))
 
         //
-        map.moveCamera(CameraUpdateFactory.newLatLng(geoAddress))
+        // map.moveCamera(CameraUpdateFactory.newLatLng(geoAddress))
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(geoAddress, zoomLevel))
 
     }
 

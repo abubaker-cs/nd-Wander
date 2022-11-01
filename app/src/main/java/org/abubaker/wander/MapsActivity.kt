@@ -10,9 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import org.abubaker.wander.databinding.ActivityMapsBinding
 import java.util.*
 
@@ -105,6 +103,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(geoAddress, zoomLevel))
 
+        val overlaySize = 100f
+        val androidOverlay = GroundOverlayOptions()
+            .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
+            .position(geoAddress, overlaySize)
+
+
+        map.addGroundOverlay(androidOverlay)
+
+
         setMapLongClick(map)
 
         setPoiClick(map)
@@ -119,21 +126,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     private fun setMapLongClick(map: GoogleMap) {
 
-        map.setOnMapLongClickListener { latLng ->
+        map.setOnMapLongClickListener { geoLocation ->
 
             // A Snippet is Additional text that's displayed below the title.
             val snippet = String.format(
                 Locale.getDefault(),
                 "Lat: %1$.5f, Long: %2$.5f",
-                latLng.latitude,
-                latLng.longitude
+                geoLocation.latitude,
+                geoLocation.longitude
             )
 
             map.addMarker(
                 MarkerOptions()
-                    .position(latLng)
-                    .title(getString(R.string.dropped_pin)) // Set the title of the marker to “Dropped Pin”
-                    .snippet(snippet) // set the marker’s snippet to the snippet you just created.
+                    .position(geoLocation)
+
+                    // Set the title of the marker to “Dropped Pin”
+                    .title(getString(R.string.dropped_pin))
+
+                    // set the marker’s snippet to the snippet you just created.
+                    .snippet(snippet)
+
+                    // long click markers will now be shown shaded blue
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
             )
 
         }

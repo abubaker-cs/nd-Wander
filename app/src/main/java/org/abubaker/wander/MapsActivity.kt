@@ -11,6 +11,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.abubaker.wander.databinding.ActivityMapsBinding
+import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -52,6 +53,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val geoAddress = LatLng(latitude, longitude)
 
 
+        /**
+         * 1: World
+         * 5: Landmass/continent
+         * 10: City
+         * 15: Streets
+         * 20: Buildings
+         */
         val zoomLevel = 15f
 
         // 2. Position
@@ -62,6 +70,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // map.moveCamera(CameraUpdateFactory.newLatLng(geoAddress))
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(geoAddress, zoomLevel))
+
+        setMapLongClick(map)
+
+    }
+
+    /**
+     * Long Click
+     */
+    private fun setMapLongClick(map: GoogleMap) {
+
+        map.setOnMapLongClickListener { latLng ->
+
+            // A Snippet is Additional text that's displayed below the title.
+            val snippet = String.format(
+                Locale.getDefault(),
+                "Lat: %1$.5f, Long: %2$.5f",
+                latLng.latitude,
+                latLng.longitude
+            )
+
+            map.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title(getString(R.string.dropped_pin)) // Set the title of the marker to “Dropped Pin”
+                    .snippet(snippet) // set the marker’s snippet to the snippet you just created.
+            )
+
+        }
 
     }
 

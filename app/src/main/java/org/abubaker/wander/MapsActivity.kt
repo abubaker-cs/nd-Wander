@@ -1,6 +1,8 @@
 package org.abubaker.wander
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -44,16 +46,51 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         // 1. Geo-location
-        val sydney = LatLng(-34.0, 151.0)
+        val geoAddress = LatLng(31.341836, 74.140467)
 
         // 2. Position
         // 3. Title
         map.addMarker(
-            MarkerOptions().position(sydney).title("Marker in Sydney")
+            MarkerOptions().position(geoAddress).title("My Home")
         )
 
         //
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        map.moveCamera(CameraUpdateFactory.newLatLng(geoAddress))
 
     }
+
+    // Inflate: map_options
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.map_options, menu)
+        return true
+    }
+
+    // Change the map type based on the user's selection.
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+
+        R.id.normal_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
+            true
+        }
+
+        R.id.hybrid_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_HYBRID
+            true
+        }
+
+        R.id.satellite_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
+            true
+        }
+
+        R.id.terrain_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            true
+        }
+
+        else -> super.onOptionsItemSelected(item)
+
+    }
+
 }

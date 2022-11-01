@@ -12,7 +12,7 @@ import org.abubaker.wander.databinding.ActivityMapsBinding
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private lateinit var mMap: GoogleMap
+    private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +24,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
     }
 
@@ -37,11 +38,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+
+        //
+        map = googleMap
 
         // Add a marker in Sydney and move the camera
+        // 1. Geo-location
         val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        // 2. Position
+        // 3. Title
+        map.addMarker(
+            MarkerOptions().position(sydney).title("Marker in Sydney")
+        )
+
+        //
+        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
     }
 }

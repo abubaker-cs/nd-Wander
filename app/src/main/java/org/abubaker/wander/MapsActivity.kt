@@ -73,6 +73,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setMapLongClick(map)
 
+        setPoiClick(map)
+
     }
 
     /**
@@ -96,6 +98,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .title(getString(R.string.dropped_pin)) // Set the title of the marker to “Dropped Pin”
                     .snippet(snippet) // set the marker’s snippet to the snippet you just created.
             )
+
+        }
+
+    }
+
+    /**
+     * Point of Interest
+     */
+    private fun setPoiClick(map: GoogleMap) {
+
+        map.setOnPoiClickListener { poi ->
+
+            val poiMarker = map.addMarker(
+                MarkerOptions()
+                    .position(poi.latLng)
+                    .title(poi.name)
+            )
+
+            poiMarker?.showInfoWindow()
 
         }
 
